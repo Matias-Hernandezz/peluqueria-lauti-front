@@ -1,27 +1,96 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { createBlockedSlot } from "../api/blockedSlotsApi";
+import { useAuth } from "../hooks/useAuth";
+import { Modal } from "../../../shared/components/Modal";
+import { Input } from "../../../shared/components/Input";
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  onConfirm: (reason: string) => void;
+  defaultStart?: string;
+  onCreated?: () => void;
 }
 
-export function BlockSlotModal({ open, onClose, onConfirm }: Props) {
+function padSeconds(value: string): string {
+  // datetime-local da "YYYY-MM-DDTHH:MM"; normalizamos a segundos.
+  return value.length === 16 ? `${value}:00` : value;
+}
+
+export function BlockSlotModal({
+  open,
+  onClose,
+  defaultStart,
+  onCreated,
+}: Props) {
+  const { token } = useAuth();
+  const [startAt, setStartAt] = useState("");
+  const [endAt, setEndAt] = useState("");
   const [reason, setReason] = useState("");
 
-  if (!open) return null;
+  // Cada vez que se abre, arrancamos el form de cero (con la hora sugerida).
+  useEffect(() => {
+    if (open) {
+      setStartAt(defaultStart ?? "");
+      setEndAt("");
+      setReason("");
+    }
+  }, [open, defaultStart]);
+
+  const create = useMutation({
+    mutationFn: () =>
+      createBlockedSlot(token, {
+        start_at: padSeconds(startAt),
+        end_at: padSeconds(endAt),
+        reason: reason || null,
+      }),
+    onSuccess: () => {
+      onClose();
+      onCreated?.();
+    },
+  });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-      <div className="w-full max-w-sm border border-white/10 bg-ink p-6">
-        <h2 className="font-display text-xl font-semibold">Bloquear horario</h2>
-        <input
-          className="mt-4 w-full border border-white/15 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-gold"
-          placeholder="Motivo (feriado, almuerzo…)"
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-        />
-        <div className="mt-4 flex justify-end gap-2">
+    <Modal open={open} onClose={onClose} title="Bloquear horario">
+      <div className="mt-4 flex flex-col gap-4">
+        <div>
+          <label className="mb-1 block text-xs uppercase tracking-wide text-white/40">
+            Inicio
+          </label>
+          <Input
+            type="datetime-local"
+            value={startAt}
+            onChange={(e) => setStartAt(e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs uppercase tracking-wide text-white/40">
+            Fin
+          </label>
+          <Input
+            type="datetime-local"
+            value={endAt}
+            onChange={(e) => setEndAt(e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs uppercase tracking-wide text-white/40">
+            Motivo (opcional)
+          </label>
+          <Input
+            placeholder="Feriado, almuerzo…"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+          />
+        </div>
+
+        {create.isError && (
+          <p className="text-sm text-red-400">
+            {create.error?.message ?? "No se pudo crear el bloqueo"}
+          </p>
+        )}
+
+        <div className="flex justify-end gap-2">
           <button
             type="button"
             onClick={onClose}
@@ -31,13 +100,14 @@ export function BlockSlotModal({ open, onClose, onConfirm }: Props) {
           </button>
           <button
             type="button"
-            onClick={() => onConfirm(reason)}
-            className="bg-gold px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-ink"
+            onClick={() => create.mutate()}
+            disabled={!startAt || !endAt || create.isPending}
+            className="bg-gold px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-ink disabled:opacity-50"
           >
             Bloquear
           </button>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

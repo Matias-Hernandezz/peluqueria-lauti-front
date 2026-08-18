@@ -1,0 +1,136 @@
+import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSchedule } from "../hooks/useSchedule";
+import { saveSchedule } from "../api/scheduleApi";
+import { useAuth } from "../hooks/useAuth";
+import { Input } from "../../../shared/components/Input";
+import type { WorkingHoursUpdate } from "../types";
+
+const DAY_NAMES = [
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+  "Domingo",
+];
+
+interface DayRow {
+  start: string; // "HH:MM"
+  end: string;
+  is_open: boolean;
+}
+
+const DEFAULT_ROW: DayRow = { start: "10:00", end: "18:00", is_open: false };
+
+export function WorkingHoursEditor() {
+  const { token } = useAuth();
+  const qc = useQueryClient();
+  const { data: schedule = [], isLoading } = useSchedule();
+  const [rows, setRows] = useState<Record<number, DayRow>>({});
+
+  useEffect(() => {
+    const init: Record<number, DayRow> = {};
+    for (const wh of schedule) {
+      init[wh.weekday] = {
+        start: wh.start_time.slice(0, 5),
+        end: wh.end_time.slice(0, 5),
+        is_open: wh.is_open,
+      };
+    }
+    setRows(init);
+  }, [schedule]);
+
+  const updateRow = (weekday: number, patch: Partial<DayRow>) => {
+    setRows((prev) => ({
+      ...prev,
+      [weekday]: { ...(prev[weekday] ?? DEFAULT_ROW), ...patch },
+    }));
+  };
+
+  const save = useMutation({
+    mutationFn: () => {
+      const payload: WorkingHoursUpdate[] = [];
+      for (let weekday = 0; weekday < 7; weekday++) {
+        const r = rows[weekday] ?? DEFAULT_ROW;
+        payload.push({
+          weekday,
+          start_time: `${r.start}:00`,
+          end_time: `${r.end}:00`,
+          is_open: r.is_open,
+        });
+      }
+      return saveSchedule(token, payload);
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "schedule"] }),
+  });
+
+  if (isLoading) {
+    return <p className="text-sm text-white/50">Cargando…</p>;
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <h1 className="font-display text-2xl font-semibold">
+          Horario de atención
+        </h1>
+        <button
+          type="button"
+          onClick={() => save.mutate()}
+          disabled={save.isPending}
+          className="bg-gold px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-ink disabled:opacity-50"
+        >
+          Guardar
+        </button>
+      </div>
+
+      {save.isSuccess && (
+        <p className="mt-2 text-sm text-green-400">Horario guardado.</p>
+      )}
+      {save.isError && (
+        <p className="mt-2 text-sm text-red-400">
+          {save.error?.message ?? "No se pudo guardar"}
+        </p>
+      )}
+
+      <ul className="mt-6 space-y-3">
+        {DAY_NAMES.map((name, weekday) => {
+          const r = rows[weekday] ?? DEFAULT_ROW;
+          return (
+            <li
+              key={weekday}
+              className="flex flex-wrap items-center gap-4 border border-white/10 p-4"
+            >
+              <span className="w-24 text-sm text-white">{name}</span>
+              <label className="flex items-center gap-2 text-xs text-white/60">
+                <input
+                  type="checkbox"
+                  checked={r.is_open}
+                  onChange={(e) => updateRow(weekday, { is_open: e.target.checked })}
+                />
+                Abierto
+              </label>
+              <Input
+                type="time"
+                value={r.start}
+                disabled={!r.is_open}
+                onChange={(e) => updateRow(weekday, { start: e.target.value })}
+                className="max-w-[130px] disabled:opacity-40"
+              />
+              <span className="text-white/40">a</span>
+              <Input
+                type="time"
+                value={r.end}
+                disabled={!r.is_open}
+                onChange={(e) => updateRow(weekday, { end: e.target.value })}
+                className="max-w-[130px] disabled:opacity-40"
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}

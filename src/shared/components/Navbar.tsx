@@ -4,7 +4,8 @@ import { Button } from "./Button";
 
 const links = [
   { label: "Inicio", to: "/" },
-  { label: "Galería", to: "/gallery" },
+  { label: "Servicios", to: "/#services" },
+  { label: "Contacto", to: "/contacto" },
   { label: "Reservar", to: "/booking" },
 ];
 
@@ -13,11 +14,8 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-white/5 bg-ink/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link to="/" className="flex flex-col leading-none">
-          <span className="font-display text-xl font-semibold tracking-wide">
+          <span className="font-display text-xl font-semibold tracking-wide text-gold">
             {brand.brandLine1}
-          </span>
-          <span className="mt-1 text-[10px] uppercase tracking-[0.4em] text-gold">
-            {brand.tagline}
           </span>
         </Link>
 

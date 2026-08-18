@@ -69,3 +69,47 @@ export interface BlockedSlot {
   end_at: string;
   reason: string | null;
 }
+
+// --- Variantes de create/update (panel admin) ---
+
+export interface ServiceCreate {
+  name: string;
+  duration_minutes: number;
+  price: string; // Decimal serializado como string
+  active?: boolean;
+}
+
+export interface ServiceUpdate {
+  name?: string;
+  duration_minutes?: number;
+  price?: string;
+  active?: boolean;
+}
+
+export interface BlockedSlotCreate {
+  start_at: string;
+  end_at: string;
+  reason?: string | null;
+}
+
+export interface WorkingHoursUpdate {
+  weekday: number;
+  start_time: string; // "HH:MM:SS"
+  end_time: string;
+  is_open: boolean;
+}
+
+export interface BarberUpdate {
+  name?: string;
+  bio?: string | null;
+  photo_url?: string | null;
+  location?: string | null;
+  social_instagram?: string | null;
+  social_facebook?: string | null;
+  social_tiktok?: string | null;
+}
+
+export interface GalleryImageUpdate {
+  category?: string | null;
+  sort_order?: number;
+}

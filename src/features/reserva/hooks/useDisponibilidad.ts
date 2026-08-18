@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchAvailability } from "../api/fetchAvailability";
+import { fetchAvailability } from "../api/obtenerDisponibilidad";
 
 export function useAvailability(serviceId: number | null, date: string | null) {
   return useQuery({

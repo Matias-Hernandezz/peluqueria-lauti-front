@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchServices } from "../api/fetchServices";
+import { fetchServices } from "../api/obtenerServicios";
 
 interface Props {
   selected: number | null;

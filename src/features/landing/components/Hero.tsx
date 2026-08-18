@@ -42,21 +42,13 @@ export function Hero() {
       ref={sectionRef}
       className="relative flex min-h-[85vh] items-center overflow-hidden bg-ink"
     >
-      {/* Mosaico de imágenes con parallax: se mueve más lento que el scroll */}
-      <div
-        ref={mosaicRef}
-        className="absolute inset-0 grid h-full w-full auto-rows-fr grid-cols-2 will-change-transform md:grid-cols-5"
-      >
-        {landing.heroImages.map((url, i) => (
-          <img
-            key={url}
-            src={url}
-            alt={i === 2 ? "Peluquería Lauti" : ""}
-            className={`h-full w-full object-cover ${
-              i === 0 ? "col-span-2 md:col-span-1" : ""
-            }`}
-          />
-        ))}
+      {/* Imagen de fondo única con parallax: se mueve más lento que el scroll */}
+      <div ref={mosaicRef} className="absolute inset-0 will-change-transform">
+        <img
+          src={landing.heroImage}
+          alt="Barbería"
+          className="h-full w-full object-cover"
+        />
       </div>
 
       {/* Overlay oscuro para que el texto sea legible sobre las fotos */}

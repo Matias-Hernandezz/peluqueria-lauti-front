@@ -5,7 +5,6 @@ import { StatsBar } from "./components/StatsBar";
 import { Services } from "./components/Services";
 import { Experience } from "./components/Experience";
 import { ImageMarquee } from "./components/ImageMarquee";
-import { Testimonials } from "./components/Testimonials";
 import { FindUs } from "./components/FindUs";
 
 export function LandingPage() {
@@ -18,7 +17,6 @@ export function LandingPage() {
         <Services />
         <ImageMarquee />
         <Experience />
-        <Testimonials />
         <FindUs />
       </main>
       <Footer />

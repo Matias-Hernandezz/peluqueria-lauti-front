@@ -15,12 +15,6 @@ export interface Feature {
   title: string;
 }
 
-export interface Testimonial {
-  name: string;
-  source: string;
-  text: string;
-}
-
 export interface Stat {
   value: string;
   label: string;
@@ -35,10 +29,17 @@ export const landing = {
     "https://res.cloudinary.com/dsfrkmewm/image/upload/v1786746206/imagen-referencia_yvgnjj.jpg",
     "https://res.cloudinary.com/dsfrkmewm/image/upload/v1786746205/imagen-referencia-3_nvx3ls.jpg",
   ],
+  heroImage:
+    "https://res.cloudinary.com/dsfrkmewm/image/upload/v1787014077/copy_of_maquinas_rk5d1m.jpg",
+  marqueeImages: [
+    "https://res.cloudinary.com/dsfrkmewm/image/upload/v1787013738/WhatsApp_Image_2026-08-16_at_19.05.39_2_tuojog.jpg",
+    "https://res.cloudinary.com/dsfrkmewm/image/upload/v1787013738/WhatsApp_Image_2026-08-16_at_19.05.38_xcuz7c.jpg",
+    "https://res.cloudinary.com/dsfrkmewm/image/upload/v1787013738/WhatsApp_Image_2026-08-16_at_19.05.38_1_sadgw1.jpg",
+    "https://res.cloudinary.com/dsfrkmewm/image/upload/v1787013738/WhatsApp_Image_2026-08-16_at_19.05.39_mfycum.jpg",
+    "https://res.cloudinary.com/dsfrkmewm/image/upload/v1787013738/WhatsApp_Image_2026-08-16_at_19.05.41_j6sxjx.jpg",
+  ],
   heroHeadline:
     "Cortes prolijos. Líneas limpias. Entrás y salís luciendo lo mejor de vos — siempre.",
-  rating: "4.5",
-  reviews: "245+",
   hours: "Lun–Vie 10–18 · Sáb 10–16 · Dom Cerrado",
   experienceText:
     "Entrás a la barbería y pisás un lugar que se toma su oficio en serio. Sin apuro, sin atajos — solo servicio atento y experto que te manda afuera luciendo prolijo.",
@@ -49,24 +50,19 @@ export const services: ServiceCard[] = [
     number: "01",
     title: "Cortes de pelo",
     description:
-      "De cortes clásicos a estilos contemporáneos — prolijos, limpios y a tu medida.",
+      "De cortes clásicos a estilos contemporáneos, incluidos los degradados (skin, mid y high fade). Prolijos, limpios y a tu medida.",
   },
   {
     number: "02",
-    title: "Degradados",
+    title: "Corte de pelo + Barba",
     description:
-      "Skin, mid y high fade ejecutados con precisión y consistencia.",
+      "Corte y arreglo de barba en un solo servicio — delineado, perfilado y cuidado para un acabado definido.",
   },
   {
     number: "03",
-    title: "Arreglo de barba",
-    description: "Delineado, perfilado y cuidado para un acabado definido.",
-  },
-  {
-    number: "04",
-    title: "Peinado",
+    title: "Tintura",
     description:
-      "Cera, clay, pomada — asesoría de producto y peinado final incluidos.",
+      "Color y tonos a tu medida, aplicados de forma pareja para un acabado natural.",
   },
 ];
 
@@ -77,27 +73,7 @@ export const features: Feature[] = [
   { icon: "team", title: "Barbero experimentado, resultado consistente" },
 ];
 
-export const testimonials: Testimonial[] = [
-  {
-    name: "James R.",
-    source: "Reseña de Google",
-    text: "La mejor barbería de la zona. Un barbero habilidoso con gran atención al detalle y un servicio de primera. Los precios son justos para la calidad que te llevás — no iría a otro lado.",
-  },
-  {
-    name: "Marcus T.",
-    source: "Reseña de Google",
-    text: "Caí un sábado sin reserva y me atendió al instante. El mejor fade que me hice en años — líneas limpias, gran atención al detalle. Vuelvo seguro cada dos semanas.",
-  },
-  {
-    name: "Daniel P.",
-    source: "Reseña de Google",
-    text: "Sin dudas la mejor barbería de Melbourne. Llegué sin idea de lo que quería y salí luciendo mejor que nunca. De verdad ama su oficio.",
-  },
-];
-
 export const stats: Stat[] = [
-  { value: "4.5 ★", label: "Calificación en Google" },
-  { value: "245+", label: "Reseñas verificadas" },
   { value: "SIN CITA", label: "Siempre bienvenido" },
-  { value: "EXPERTO", label: "Resultado consistente" },
+  { value: "CORTE A MEDIDA", label: "Adaptado a tu estilo" },
 ];

@@ -4,7 +4,7 @@ import { Icon } from "../../../shared/components/Icon";
 
 export function Services() {
   return (
-    <section id="services" className="mx-auto max-w-7xl px-6 py-24">
+    <section id="services" className="mx-auto max-w-7xl px-6 pt-24 pb-8 md:py-24">
       <Eyebrow>Qué hacemos</Eyebrow>
 
       <div className="mt-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -16,7 +16,7 @@ export function Services() {
         </p>
       </div>
 
-      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((service) => (
           <article
             key={service.number}

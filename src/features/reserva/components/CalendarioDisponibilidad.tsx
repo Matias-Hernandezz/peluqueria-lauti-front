@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAvailability } from "../hooks/useAvailability";
+import { useAvailability } from "../hooks/useDisponibilidad";
 import { formatTime, toISODate } from "../../../shared/lib/dates";
 
 interface Props {

@@ -3,7 +3,7 @@ import { stats } from "../data";
 export function StatsBar() {
   return (
     <section className="border-y border-white/5">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-white/5 md:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-white/5 md:grid-cols-2">
         {stats.map((stat) => (
           <div
             key={stat.label}

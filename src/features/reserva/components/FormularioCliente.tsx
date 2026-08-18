@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import type { ClientData } from "../hooks/useBookingFlow";
+import type { ClientData } from "../hooks/useFlujoReserva";
 
 interface Props {
   initial: ClientData;

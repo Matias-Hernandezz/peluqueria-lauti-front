@@ -1,8 +1,11 @@
 import { Navigate, Outlet, Link } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
+import { useRealtime } from "./hooks/useRealtime";
 
 export function AdminLayout() {
   const { isAuthenticated, logout } = useAuth();
+  // Mantiene la data del panel sincronizada en tiempo real.
+  useRealtime(isAuthenticated);
 
   if (!isAuthenticated) {
     return <Navigate to="/admin/login" replace />;
@@ -24,6 +27,12 @@ export function AdminLayout() {
           </Link>
           <Link to="/admin/gallery" className={linkClass}>
             Galería
+          </Link>
+          <Link to="/admin/schedule" className={linkClass}>
+            Horario
+          </Link>
+          <Link to="/admin/profile" className={linkClass}>
+            Perfil
           </Link>
         </nav>
         <button

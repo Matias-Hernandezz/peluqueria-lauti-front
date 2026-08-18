@@ -10,6 +10,7 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit";
   onClick?: () => void;
+  arrow?: boolean;
 }
 
 export function Button({
@@ -20,6 +21,7 @@ export function Button({
   className = "",
   type,
   onClick,
+  arrow = true,
 }: ButtonProps) {
   const base =
     "inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-200";
@@ -33,7 +35,7 @@ export function Button({
   const content = (
     <>
       {children}
-      <Icon name="arrow" className="h-3.5 w-3.5" />
+      {arrow && <Icon name="arrow" className="h-3.5 w-3.5" />}
     </>
   );
 

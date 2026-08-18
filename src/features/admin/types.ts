@@ -1,6 +1,15 @@
 export type {
   Appointment,
+  AppointmentStatus,
   Service,
+  ServiceCreate,
+  ServiceUpdate,
   GalleryImage,
+  GalleryImageUpdate,
   BlockedSlot,
+  BlockedSlotCreate,
+  WorkingHours,
+  WorkingHoursUpdate,
+  Barber,
+  BarberUpdate,
 } from "../../shared/types/domain";

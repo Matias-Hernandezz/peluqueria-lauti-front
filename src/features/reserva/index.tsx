@@ -1,16 +1,19 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Navbar } from "../../shared/components/Navbar";
 import { Footer } from "../../shared/components/Footer";
 import { Eyebrow } from "../../shared/components/Eyebrow";
-import { useBookingFlow } from "./hooks/useBookingFlow";
-import { ServiceSelector } from "./components/ServiceSelector";
-import { AvailabilityCalendar } from "./components/AvailabilityCalendar";
-import { ClientForm } from "./components/ClientForm";
-import { ConfirmationStep } from "./components/ConfirmationStep";
+import { useBookingFlow } from "./hooks/useFlujoReserva";
+import { ServiceSelector } from "./components/SelectorServicio";
+import { AvailabilityCalendar } from "./components/CalendarioDisponibilidad";
+import { ClientForm } from "./components/FormularioCliente";
+import { ConfirmationStep } from "./components/PasoConfirmacion";
 
 const steps = ["Servicio", "Horario", "Tus datos", "Confirmación"];
 
 export function BookingPage() {
   const flow = useBookingFlow();
+  const [confirmed, setConfirmed] = useState(false);
 
   return (
     <div className="min-h-screen bg-ink text-white">
@@ -59,29 +62,43 @@ export function BookingPage() {
             />
           )}
           {flow.step === 4 && flow.payload && (
-            <ConfirmationStep payload={flow.payload} />
+            <ConfirmationStep
+              payload={flow.payload}
+              onConfirmed={() => setConfirmed(true)}
+            />
           )}
         </div>
 
         <div className="mt-10 flex justify-between">
-          {flow.step > 1 && (
-            <button
-              type="button"
-              onClick={flow.back}
-              className="border border-white/15 px-6 py-3 text-xs uppercase tracking-[0.2em] text-white/70 transition-colors hover:border-gold/40"
+          {confirmed ? (
+            <Link
+              to="/"
+              className="ml-auto inline-flex items-center justify-center bg-gold px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink transition-colors hover:bg-gold/90"
             >
-              Atrás
-            </button>
-          )}
-          {flow.step < 3 && (
-            <button
-              type="button"
-              onClick={flow.next}
-              disabled={!flow.canNext}
-              className="ml-auto inline-flex items-center justify-center bg-gold px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink transition-colors hover:bg-gold/90 disabled:opacity-50"
-            >
-              Continuar
-            </button>
+              Volver al inicio
+            </Link>
+          ) : (
+            <>
+              {flow.step > 1 && (
+                <button
+                  type="button"
+                  onClick={flow.back}
+                  className="border border-white/15 px-6 py-3 text-xs uppercase tracking-[0.2em] text-white/70 transition-colors hover:border-gold/40"
+                >
+                  Atrás
+                </button>
+              )}
+              {flow.step < 3 && (
+                <button
+                  type="button"
+                  onClick={flow.next}
+                  disabled={!flow.canNext}
+                  className="ml-auto inline-flex items-center justify-center bg-gold px-6 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink transition-colors hover:bg-gold/90 disabled:opacity-50"
+                >
+                  Continuar
+                </button>
+              )}
+            </>
           )}
         </div>
       </main>

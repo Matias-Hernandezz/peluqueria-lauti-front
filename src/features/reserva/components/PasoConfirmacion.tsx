@@ -1,14 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
 import type { AppointmentCreate } from "../types";
-import { createAppointment } from "../api/createAppointment";
+import { createAppointment } from "../api/crearTurno";
 import { formatDate, formatTime } from "../../../shared/lib/dates";
 
 interface Props {
   payload: AppointmentCreate;
+  onConfirmed?: () => void;
 }
 
-export function ConfirmationStep({ payload }: Props) {
-  const mutation = useMutation({ mutationFn: createAppointment });
+export function ConfirmationStep({ payload, onConfirmed }: Props) {
+  const mutation = useMutation({
+    mutationFn: createAppointment,
+    onSuccess: () => onConfirmed?.(),
+  });
 
   if (mutation.isSuccess) {
     return (
