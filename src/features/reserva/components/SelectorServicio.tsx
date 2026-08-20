@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchServices } from "../api/obtenerServicios";
+import { Skeleton } from "../../../shared/components/Skeleton";
 
 interface Props {
   selected: number | null;
@@ -13,7 +14,16 @@ export function ServiceSelector({ selected, onSelect }: Props) {
   });
 
   if (isLoading) {
-    return <p className="text-sm text-white/50">Cargando servicios…</p>;
+    return (
+      <div className="grid gap-4 sm:grid-cols-2">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="flex flex-col gap-3 border border-white/10 p-6">
+            <Skeleton className="h-5 w-2/3" />
+            <Skeleton className="h-3 w-1/3" />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (

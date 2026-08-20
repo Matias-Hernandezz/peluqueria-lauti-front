@@ -14,7 +14,9 @@ type IconName =
   | "scissors"
   | "walkin"
   | "location"
-  | "team";
+  | "team"
+  | "menu"
+  | "close";
 
 interface IconProps {
   name: IconName;
@@ -105,6 +107,14 @@ const paths: Record<IconName, ReactNode> = {
         strokeLinejoin="round"
       />
     </>
+  ),
+  menu: (
+    <>
+      <path d="M2.5 5h15M2.5 10h15M2.5 15h15" strokeLinecap="round" />
+    </>
+  ),
+  close: (
+    <path d="M5 5l10 10M15 5L5 15" strokeLinecap="round" />
   ),
 };
 

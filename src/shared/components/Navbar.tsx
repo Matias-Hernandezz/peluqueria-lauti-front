@@ -5,7 +5,7 @@ import { Button } from "./Button";
 const links = [
   { label: "Inicio", to: "/" },
   { label: "Servicios", to: "/#services" },
-  { label: "Contacto", to: "/contacto" },
+  { label: "Contacto", to: "/#contact" },
   { label: "Reservar", to: "/booking" },
 ];
 

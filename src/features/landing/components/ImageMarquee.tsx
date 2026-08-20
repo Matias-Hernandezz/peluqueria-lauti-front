@@ -1,4 +1,5 @@
 import { landing } from "../data";
+import { Eyebrow } from "../../../shared/components/Eyebrow";
 
 /**
  * Marquee infinito de dos filas en direcciones opuestas.
@@ -45,6 +46,9 @@ function Row({ urls, reverse = false }: { urls: string[]; reverse?: boolean }) {
 export function ImageMarquee() {
   return (
     <section className="overflow-hidden border-y border-white/5 bg-white/[0.015] py-10">
+      <div className="mx-auto mb-8 max-w-7xl px-6">
+        <Eyebrow>Galería</Eyebrow>
+      </div>
       <div className="flex flex-col gap-4">
         <Row urls={TOP} />
         <Row urls={BOTTOM} reverse />

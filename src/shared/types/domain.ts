@@ -16,6 +16,7 @@ export interface Barber {
   bio: string | null;
   photo_url: string | null;
   location: string | null;
+  slot_interval_minutes: number | null;
   social_instagram: string | null;
   social_facebook: string | null;
   social_tiktok: string | null;
@@ -104,6 +105,7 @@ export interface BarberUpdate {
   bio?: string | null;
   photo_url?: string | null;
   location?: string | null;
+  slot_interval_minutes?: number | null;
   social_instagram?: string | null;
   social_facebook?: string | null;
   social_tiktok?: string | null;

@@ -14,9 +14,9 @@ export interface ClientData {
  * La validación de cada paso está en `canNext`; el payload se arma solo cuando
  * están todos los datos.
  */
-export function useBookingFlow() {
-  const [step, setStep] = useState<BookingStep>(1);
-  const [serviceId, setServiceId] = useState<number | null>(null);
+export function useBookingFlow(initialServiceId: number | null = null) {
+  const [step, setStep] = useState<BookingStep>(initialServiceId ? 2 : 1);
+  const [serviceId, setServiceId] = useState<number | null>(initialServiceId);
   const [slot, setSlot] = useState<string | null>(null);
   const [client, setClient] = useState<ClientData>({
     name: "",

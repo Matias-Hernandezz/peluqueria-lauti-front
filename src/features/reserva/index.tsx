@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Navbar } from "../../shared/components/Navbar";
 import { Footer } from "../../shared/components/Footer";
 import { Eyebrow } from "../../shared/components/Eyebrow";
@@ -12,7 +12,9 @@ import { ConfirmationStep } from "./components/PasoConfirmacion";
 const steps = ["Servicio", "Horario", "Tus datos", "Confirmación"];
 
 export function BookingPage() {
-  const flow = useBookingFlow();
+  const [searchParams] = useSearchParams();
+  const preselectId = Number(searchParams.get("service")) || null;
+  const flow = useBookingFlow(preselectId);
   const [confirmed, setConfirmed] = useState(false);
 
   return (

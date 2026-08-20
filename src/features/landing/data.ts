@@ -4,14 +4,8 @@
  * TODO: reemplazar por contenido real de Lauti o consumir GET /api/v1/public/landing.
  */
 
-export interface ServiceCard {
-  number: string;
-  title: string;
-  description: string;
-}
-
 export interface Feature {
-  icon: "scissors" | "walkin" | "location" | "team";
+  icon: "scissors" | "clock" | "location" | "team";
   title: string;
 }
 
@@ -40,40 +34,17 @@ export const landing = {
   ],
   heroHeadline:
     "Cortes prolijos. Líneas limpias. Entrás y salís luciendo lo mejor de vos — siempre.",
-  hours: "Lun–Vie 10–18 · Sáb 10–16 · Dom Cerrado",
   experienceText:
     "Entrás a la barbería y pisás un lugar que se toma su oficio en serio. Sin apuro, sin atajos — solo servicio atento y experto que te manda afuera luciendo prolijo.",
 };
 
-export const services: ServiceCard[] = [
-  {
-    number: "01",
-    title: "Cortes de pelo",
-    description:
-      "De cortes clásicos a estilos contemporáneos, incluidos los degradados (skin, mid y high fade). Prolijos, limpios y a tu medida.",
-  },
-  {
-    number: "02",
-    title: "Corte de pelo + Barba",
-    description:
-      "Corte y arreglo de barba en un solo servicio — delineado, perfilado y cuidado para un acabado definido.",
-  },
-  {
-    number: "03",
-    title: "Tintura",
-    description:
-      "Color y tonos a tu medida, aplicados de forma pareja para un acabado natural.",
-  },
-];
-
 export const features: Feature[] = [
   { icon: "scissors", title: "Cortes de precisión adaptados a la forma de tu rostro" },
-  { icon: "walkin", title: "Sin cita previa — no hace falta reservar" },
-  { icon: "location", title: "En pleno corazón de la ciudad" },
-  { icon: "team", title: "Barbero experimentado, resultado consistente" },
+  { icon: "clock", title: "Elegí tu horario en segundos" },
+  { icon: "team", title: "Un corte prolijo que se mantiene" },
 ];
 
 export const stats: Stat[] = [
-  { value: "SIN CITA", label: "Siempre bienvenido" },
+  { value: "RESERVA ONLINE", label: "Elegí y confirmá en minutos" },
   { value: "CORTE A MEDIDA", label: "Adaptado a tu estilo" },
 ];

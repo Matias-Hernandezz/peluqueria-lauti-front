@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSchedule } from "../hooks/useSchedule";
 import { saveSchedule } from "../api/scheduleApi";
+import { useProfile } from "../hooks/useProfile";
+import { updateProfile } from "../api/profileApi";
 import { useAuth } from "../hooks/useAuth";
 import { Input } from "../../../shared/components/Input";
 import type { WorkingHoursUpdate } from "../types";
@@ -28,7 +30,9 @@ export function WorkingHoursEditor() {
   const { token } = useAuth();
   const qc = useQueryClient();
   const { data: schedule = [], isLoading } = useSchedule();
+  const { data: profile } = useProfile();
   const [rows, setRows] = useState<Record<number, DayRow>>({});
+  const [interval, setInterval] = useState<string>("");
 
   useEffect(() => {
     const init: Record<number, DayRow> = {};
@@ -41,6 +45,12 @@ export function WorkingHoursEditor() {
     }
     setRows(init);
   }, [schedule]);
+
+  useEffect(() => {
+    if (profile) {
+      setInterval(profile.slot_interval_minutes?.toString() ?? "");
+    }
+  }, [profile]);
 
   const updateRow = (weekday: number, patch: Partial<DayRow>) => {
     setRows((prev) => ({
@@ -64,6 +74,14 @@ export function WorkingHoursEditor() {
       return saveSchedule(token, payload);
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "schedule"] }),
+  });
+
+  const saveInterval = useMutation({
+    mutationFn: () =>
+      updateProfile(token, {
+        slot_interval_minutes: interval ? Number(interval) : null,
+      }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "profile"] }),
   });
 
   if (isLoading) {
@@ -94,6 +112,38 @@ export function WorkingHoursEditor() {
           {save.error?.message ?? "No se pudo guardar"}
         </p>
       )}
+
+      <div className="mt-6 border border-white/10 p-4">
+        <label className="mb-1 block text-xs uppercase tracking-wide text-white/40">
+          Intervalo entre turnos (min)
+        </label>
+        <div className="flex flex-wrap items-end gap-3">
+          <Input
+            type="number"
+            min={0}
+            value={interval}
+            placeholder="= duración del servicio"
+            onChange={(e) => setInterval(e.target.value)}
+            className="max-w-[180px]"
+          />
+          <button
+            type="button"
+            onClick={() => saveInterval.mutate()}
+            disabled={saveInterval.isPending}
+            className="border border-gold/40 px-4 py-2 text-xs uppercase tracking-[0.15em] text-gold hover:bg-gold/10 disabled:opacity-50"
+          >
+            Guardar intervalo
+          </button>
+        </div>
+        {saveInterval.isSuccess && (
+          <p className="mt-2 text-sm text-green-400">Intervalo guardado.</p>
+        )}
+        {saveInterval.isError && (
+          <p className="mt-2 text-sm text-red-400">
+            {saveInterval.error?.message ?? "No se pudo guardar"}
+          </p>
+        )}
+      </div>
 
       <ul className="mt-6 space-y-3">
         {DAY_NAMES.map((name, weekday) => {

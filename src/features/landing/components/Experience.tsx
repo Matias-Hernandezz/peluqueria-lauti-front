@@ -1,8 +1,14 @@
 import { features, landing } from "../data";
 import { Eyebrow } from "../../../shared/components/Eyebrow";
 import { Icon } from "../../../shared/components/Icon";
+import { Skeleton } from "../../../shared/components/Skeleton";
+import { useLandingHours } from "../hooks/useLanding";
+import { formatSchedule } from "../lib/formatSchedule";
 
 export function Experience() {
+  const { hours, isLoading } = useLandingHours();
+  const hoursText = formatSchedule(hours);
+
   return (
     <section id="experience" className="border-t border-white/5 bg-white/[0.015]">
       <div className="mx-auto grid max-w-7xl gap-16 px-6 py-24 lg:grid-cols-2">
@@ -18,10 +24,14 @@ export function Experience() {
           </p>
 
           <div className="mt-10 inline-flex flex-col gap-1 border border-gold/30 bg-ink/40 px-8 py-5">
-            <span className="text-sm text-white">Abierto Lun–Sáb</span>
-            <span className="text-xs uppercase tracking-[0.2em] text-gold">
-              {landing.hours}
-            </span>
+            <span className="text-sm text-white">Horario de atención</span>
+            {isLoading ? (
+              <Skeleton className="h-3 w-44" />
+            ) : (
+              <span className="text-xs uppercase tracking-[0.2em] text-gold">
+                {hoursText}
+              </span>
+            )}
           </div>
         </div>
 

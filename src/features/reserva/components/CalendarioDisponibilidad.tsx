@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAvailability } from "../hooks/useDisponibilidad";
 import { formatTime, toISODate } from "../../../shared/lib/dates";
+import { Skeleton } from "../../../shared/components/Skeleton";
 
 interface Props {
   serviceId: number;
@@ -25,17 +26,19 @@ export function AvailabilityCalendar({ serviceId, selected, onSelect }: Props) {
         className="border border-white/15 bg-white/5 px-4 py-2 text-sm text-white outline-none focus:border-gold"
       />
 
-      <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4">
-        {isLoading && (
-          <p className="text-sm text-white/50">Cargando horarios…</p>
-        )}
-        {!isLoading && slots.length === 0 && (
-          <p className="text-sm text-white/50">
-            Sin horarios disponibles para este día.
-          </p>
-        )}
-        {!isLoading &&
-          slots.map((slot) => (
+      {isLoading ? (
+        <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <Skeleton key={i} className="h-10" />
+          ))}
+        </div>
+      ) : slots.length === 0 ? (
+        <p className="mt-6 text-sm text-white/50">
+          Sin horarios disponibles para este día.
+        </p>
+      ) : (
+        <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-4">
+          {slots.map((slot) => (
             <button
               key={slot}
               type="button"
@@ -49,7 +52,8 @@ export function AvailabilityCalendar({ serviceId, selected, onSelect }: Props) {
               {formatTime(slot)}
             </button>
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
